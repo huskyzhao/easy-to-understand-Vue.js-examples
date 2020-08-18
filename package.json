@@ -1,0 +1,11 @@
+{
+  "name": "easy-to-understand-Vue.js-examples",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:huskyzhao/easy-to-understand-Vue.js-examples.git",
+  "author": "WE\\husky.zhao <husky.zhao>",
+  "license": "MIT",
+  "devDependencies": {
+    "vue": "^2.6.11"
+  }
+}
