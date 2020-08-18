@@ -67,16 +67,20 @@ export function observe (value, asRootData) {
   }
   return ob
 }
-
+//定义一个响应式数据
 function defineReactive (data, key, val) {
+  //当前属性的响应式
   let childOb = observe(val)
   let dep = new Dep()
   Object.defineProperty(data, key, {
       enumerable: true,
       configurable: true,
       get: function () {
+        //收集依赖
         dep.depend()
+        //对于子属性存在，收集子属性的依赖
         if (childOb) {
+        
           childOb.dep.depend()
         }
         return val
@@ -86,6 +90,7 @@ function defineReactive (data, key, val) {
           return
         }
         val = newVal
+        //触发依赖
         dep.notify()
       }
   })

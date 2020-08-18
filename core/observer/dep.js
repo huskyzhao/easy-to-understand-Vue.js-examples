@@ -1,5 +1,7 @@
 let uid = 0
 
+//dep类
+// 专门用来管理依赖，
 export default class Dep {
   constructor () {
     this.id = uid++
@@ -15,6 +17,7 @@ export default class Dep {
   }
 
   depend () {
+    //收集依赖
     if (window.target) {
       window.target.addDep(this)
     }
@@ -28,6 +31,7 @@ export default class Dep {
   }
 
   notify () {
+    //触发依赖
     // stabilize the subscriber list first
     const subs = this.subs.slice()
     for (let i = 0, l = subs.length; i < l; i++) {
