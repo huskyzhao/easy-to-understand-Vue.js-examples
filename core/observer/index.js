@@ -16,11 +16,14 @@ const arrayKeys = Object.getOwnPropertyNames(arrayMethods)
  * 来收集属性的依赖，并且当属性发生变化时，会通知这些依赖
  */
 export default class Observer {
-  constructor (value) {
+  //value是this.data
+  constructor(value) {
     this.value = value
+    //dep实例，用来收集触发依赖
     this.dep = new Dep()
+    //给响应式数据增加__ob__,是为了在拦截器中访问Observer实例,也可以用来表示这个对象已经是响应式
     def(value, '__ob__', this)
-
+    //判断是否是数组
     if (Array.isArray(value)) {
       const augment = hasProto
         ? protoAugment
@@ -73,26 +76,26 @@ function defineReactive (data, key, val) {
   let childOb = observe(val)
   let dep = new Dep()
   Object.defineProperty(data, key, {
-      enumerable: true,
-      configurable: true,
-      get: function () {
-        //收集依赖
-        dep.depend()
-        //对于子属性存在，收集子属性的依赖
-        if (childOb) {
-        
-          childOb.dep.depend()
-        }
-        return val
-      },
-      set: function (newVal) {
-        if(val === newVal){
-          return
-        }
-        val = newVal
-        //触发依赖
-        dep.notify()
+    enumerable: true,
+    configurable: true,
+    get: function () {
+      //收集依赖
+      dep.depend()
+      //对于子属性存在，收集子属性的依赖
+      if (childOb) {
+
+        childOb.dep.depend()
       }
+      return val
+    },
+    set: function (newVal) {
+      if (val === newVal) {
+        return
+      }
+      val = newVal
+      //触发依赖
+      dep.notify()
+    }
   })
 }
 
